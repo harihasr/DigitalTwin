@@ -1,1 +1,1 @@
-web: python gateway-server/manage.py runserver --log-file -
+web: gunicorn gateway_server.wsgi --log-file -
