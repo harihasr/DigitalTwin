@@ -1,1 +1,1 @@
-web: gunicorn locallibrary.wsgi --log-file -
+web: python gateway-server/manage.py runserver --log-file -
