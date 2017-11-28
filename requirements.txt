@@ -1,5 +1,14 @@
 dj-database-url==0.4.2
 Django==1.11.6
+django-mysql==2.1.1
+django-rest-auth==0.9.2
+django-rest-swagger==2.1.2
+django-sslserver==0.20
+djangorestframework==3.7.1
+djangorestframework-jwt==1.11.0
 gunicorn==19.7.1
 psycopg2==2.7.3.2
+PyJWT==1.5.3
+requests==2.18.4
+tqdm==4.19.4
 whitenoise==3.3.1
