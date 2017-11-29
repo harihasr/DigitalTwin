@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
 from .models import Project, Connector, Machine, Simulation
@@ -37,7 +37,7 @@ with open(config_file, 'r') as f:
 
 # List of projects \projects GET AND POST
 class ProjectList(APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticatedOrReadOnly, )
     authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication)
 
     def get(self, request):
@@ -109,7 +109,7 @@ class ProjectList(APIView):
 
 # \projects\name GET AND POST
 class ProjectDetails(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication)
     def get(self, request, p_name):
 
@@ -192,7 +192,7 @@ class ProjectDetails(APIView):
 
 # \projects\name\connectors
 class Connectors(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication)
     def get(self, request, p_name):
         """
@@ -233,7 +233,6 @@ class Connectors(APIView):
         return JsonResponse({'connectors': [data['name'] for data in serializer.data]})
 
     def post(self, request, p_name):
-        permission_classes = (IsAuthenticated,)
         """
         POST a connector to a project.
 
@@ -303,7 +302,7 @@ class Connectors(APIView):
 
 # \projects\name\connectors\conn_name GET
 class ConnectorList(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication)
 
     def get(self, request, p_name, conn_name):
@@ -377,7 +376,7 @@ class ConnectorList(APIView):
 
 # \projects\name\connector\name\attribute\ ONLY GET
 class ConnectorDetails(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication)
 
     def get(self, request, p_name, conn_name, attribute):
@@ -437,7 +436,7 @@ class ConnectorDetails(APIView):
 
 # \projects\name\connector\name\ ONLY POST/UPDATE
 class ConnectorEdit(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication)
 
     def post(self, request, p_name, conn_name):
@@ -512,8 +511,8 @@ class ConnectorEdit(APIView):
 
 # \machines
 class Machines(APIView):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    # authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
 
     def get(self, request):
         """
@@ -600,8 +599,8 @@ class Machines(APIView):
 
 # \machines\m_name
 class MachineDetails(APIView):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
+    # permission_classes = (IsAuthenticated,)
+    # authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
 
     def get(self, request, m_name):
         """
@@ -676,8 +675,8 @@ class MachineDetails(APIView):
 
 # \simulations GET
 class Simulate(APIView):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
+    # permission_classes = (IsAuthenticated,)
+    # authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
 
     def get(self, request):
         """
@@ -770,8 +769,8 @@ class Simulate(APIView):
 
 # \simulations\id
 class SimulationDetail(APIView):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
+    # permission_classes = (IsAuthenticated,)
+    # authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
 
     def delete(self, request, s_id):
         """
@@ -808,7 +807,7 @@ class SimulationDetail(APIView):
 
 # \upload_project\p_name
 class UploadProject(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     authentication_classes = (JSONWebTokenAuthentication,TokenAuthentication)
 
     def post(self, request, p_name):
