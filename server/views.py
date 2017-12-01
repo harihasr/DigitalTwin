@@ -511,8 +511,8 @@ class ConnectorEdit(APIView):
 
 # \machines
 class Machines(APIView):
-    # permission_classes = (IsAuthenticatedOrReadOnly,)
-    # authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
 
     def get(self, request):
         """
@@ -599,8 +599,8 @@ class Machines(APIView):
 
 # \machines\m_name
 class MachineDetails(APIView):
-    # permission_classes = (IsAuthenticated,)
-    # authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (BasicAuthentication, JSONWebTokenAuthentication, TokenAuthentication)
 
     def get(self, request, m_name):
         """
@@ -675,8 +675,8 @@ class MachineDetails(APIView):
 
 # \simulations GET
 class Simulate(APIView):
-    # permission_classes = (IsAuthenticated,)
-    # authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
 
     def get(self, request):
         """
@@ -769,8 +769,8 @@ class Simulate(APIView):
 
 # \simulations\id
 class SimulationDetail(APIView):
-    # permission_classes = (IsAuthenticated,)
-    # authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication, TokenAuthentication)
 
     def delete(self, request, s_id):
         """
@@ -808,7 +808,7 @@ class SimulationDetail(APIView):
 # \upload_project\p_name
 class UploadProject(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    authentication_classes = (JSONWebTokenAuthentication,TokenAuthentication)
+    authentication_classes = (JSONWebTokenAuthentication, TokenAuthentication)
 
     def post(self, request, p_name):
         """
