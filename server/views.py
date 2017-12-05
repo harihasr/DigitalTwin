@@ -14,6 +14,12 @@ import os
 import socket
 import requests
 import sys
+import boto3
+import botocore
+from boto3.session import Session
+
+AWS_ACCESS_KEY_ID = 'AKIAJZP4BJTXSFWQOK5A'
+AWS_SECRET_ACCESS_KEY = '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'
 
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECTS_FOLDER = os.path.join(os.path.dirname(CUR_DIR), 'Projects')
@@ -846,6 +852,7 @@ class UploadProject(APIView):
             default:
                     description: Unexpected Error.
         """
+
         projects = Project.objects.get(name=str(p_name))
         serializer = ProjectSerializer(projects, many=False)
         temp = serializer.data
@@ -859,6 +866,20 @@ class UploadProject(APIView):
 
         data = json.loads(body)
         file_contents = data['data']
+
+        session = Session(aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                          region_name='us-east-1')
+        conn = session.resource('s3')
+        bucket = conn.Bucket('ansys-digital-twin-sample')
+        exists = True
+        try:
+            conn.meta.client.head_bucket(Bucket='ansys-digital-twin-sample')
+        except botocore.exceptions.ClientError as e:
+            error_code = int(e.response['Error']['Code'])
+            if error_code == 404:
+                exists = False
+        if exists:
+            (conn.Object('ansys-digital-twin-sample', project_name).put(Body=file_contents))
 
         f = open(project_name, "wb")
         f.write(bytes(file_contents, 'utf-8'))
